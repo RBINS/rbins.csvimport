@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="rbins.csvimport">
+  <include package=".browser"/>
+
+  <five:registerPackage package="." initialize=".initialize"/>
+  <genericsetup:registerProfile
+      name="default"
+      title="rbins.csvimport"
+      description="rbins.csvimport"
+      directory="profiles/default"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+  />
+  <genericsetup:importStep
+      name="rbins.csvimport setupVarious"
+      title="various setup for rbins.csvimport "
+      description="description"
+      handler="rbins.csvimport.setuphandlers.setupVarious">
+    <depends name="content"/>
+  </genericsetup:importStep>
+
+</configure>

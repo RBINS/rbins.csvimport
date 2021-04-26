@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="rbins.csvimport">
+
+ <browser:page
+      for="*"
+      name="rbins.csvimport"
+      class=".import.csv_import_form_frame"
+      permission="rbins.csvimport" />
+
+</configure>
