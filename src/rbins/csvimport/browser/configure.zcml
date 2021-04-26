@@ -8,6 +8,6 @@
       for="*"
       name="rbins.csvimport"
       class=".import.csv_import_form_frame"
-      permission="rbins.csvimport" />
+      permission="cmf.AddPortalContent" />
 
 </configure>

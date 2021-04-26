@@ -19,12 +19,11 @@ class ICSVImportSchema(interface.Interface):
 
 
 class CSVImportForm(AutoExtensibleForm, z3c.form.form.Form):
-    """ A form to output a HTML masschange from chosen parameters """
     schema = ICSVImportSchema
     ignoreContext = True
     logs = None
 
-    @z3c.form.button.buttonAndHandler(_(u'Importer'), name='csv_import')
+    @z3c.form.button.buttonAndHandler(u'Importer', name='csv_import')
     def csv_import(self, action):
         self.logs = []
         data, errors = self.extractData()

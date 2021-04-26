@@ -19,7 +19,7 @@ setup(name='rbins.csvimport',
       keywords='plone',
       url='http://www.naturalsciences.be',
       license='GPL',
-      namespace_packages=[],
+      namespace_packages=['rbins'],
       packages=find_packages('src'),
       package_dir = {'': 'src'},
       include_package_data=True,
@@ -28,10 +28,9 @@ setup(name='rbins.csvimport',
           # -*- Extra requirements: -*-
           "plone.api",
       ] ,
-      entry_points = {
-          'z3c.autoinclude.plugin': [
-              'target = plone',
-          ],
-      },
+      entry_points="""
+        [z3c.autoinclude.plugin]
+        target = plone
+        """,
       extras_require={},
      )
