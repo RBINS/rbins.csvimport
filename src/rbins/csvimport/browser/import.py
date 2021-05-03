@@ -10,6 +10,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile as FiveViewPageTemplateFile
 from plone import api
 from plone.autoform.form import AutoExtensibleForm
+from plone.dexterity.interfaces import IDexterityContent
 from plone.namedfile.field import NamedFile
 from zope import interface
 
@@ -65,6 +66,8 @@ class CSVImportForm(AutoExtensibleForm, z3c.form.form.Form):
         self.logs += 'ligne {}: {}\n'.format(index, log)
 
     def import_line(self, index, line):
+        content_type = line.pop('@type')
+        do_update = line.pop('@update', '0') == '1'
         try:
             folder = self.get_folder(line.pop('@path'))
             path = '/'.join(folder.getPhysicalPath())
@@ -72,18 +75,22 @@ class CSVImportForm(AutoExtensibleForm, z3c.form.form.Form):
             self.add_error(str(e), index)
             return
         if 'id' in line and line['id'] in folder:
-            obj = folder[line['id']]
-            if obj.portal_type != line['@type']:
+            obj = folder[line.pop('id')]
+            if obj.portal_type != content_type:
                 self.add_error('{}/{} est de type {} alors que @type est {}.'
-                               .format(path, obj.id, obj.portal_type, line['@type']), index)
-            elif line.get('@update', False) == '1':
-                # TODO UPDATE
+                               .format(path, obj.id, obj.portal_type, content_type), index)
+            elif do_update:
+                if IDexterityContent.providedBy(obj):
+                    for field, value in line.iteritems():
+                        setattr(obj, field, value)
+                else:
+                    obj.update(**line)
                 self.add_log('{}/{} mis à jour.'.format(path, obj.id), index)
             else:
                 self.add_log('{}/{} existe déjà et ne sera pas mis à jour.'.format(path, obj.id), index)
         else:
             obj = api.content.create(
-                type=line.pop('@type'),
+                type=content_type,
                 container=folder,
                 **line
             )

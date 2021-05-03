@@ -26,7 +26,8 @@
           <h2>Instructions</h2>
           <p>Le CSV doit obligatoirement avoir les colonnes suivantes : @type, @path, title</p>
           <p>@path est relatif au dossier courant.</p>
-          <p>si la colonne id est présente, alors le contenu ne sera pas modifié, sauf si la colonne @update est présente et sa valeur à 1.</p>
+          <p>Si la colonne id est présente et que le contenu existe déjà, alors le contenu ne sera pas modifié, sauf si la colonne @update est présente et sa valeur à 1.</p>
+          <p>Si la colonne id n'est pas présente, alors un nouveau contenu sera créé.</p>
           <p>Les autres colonnes doivent correspondre aux noms des champs.</p>
         </div>
         <div id="form-input">
